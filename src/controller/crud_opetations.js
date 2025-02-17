@@ -35,14 +35,12 @@ export const createFile = async (req, res) => {
 export const readFile = async (req, res) => {
   try {
     const data = await fs.readFile(FILE_PATH, "utf8");
-    console.log("--------data------", data);
     res.json({
       status: 201,
       message: "File created successfully",
       data: data,
     });
   } catch (error) {
-    console.log("---------------error---------------", error);
     res.json({
       status: 201,
       message: `${error}`,
@@ -53,10 +51,10 @@ export const updateFile = async (req, res) => {
   try {
     const { content } = req.body;
     console.log("----content-----------", content);
-    await fs.writeFile(FILE_PATH, content, "utf8");
+    await fs.appendFile(FILE_PATH, "\n" + content, "utf8");
     res.json({
       status: 201,
-      message: "File created successfully",
+      message: "File updated successfully",
     });
   } catch (error) {
     console.log("---------------error---------------", error);
@@ -68,12 +66,10 @@ export const updateFile = async (req, res) => {
 };
 export const deleteFile = async (req, res) => {
   try {
-    const { content } = req.body;
-    console.log("----content-----------", content);
-    await fs.writeFile(FILE_PATH, content, "utf8");
+    await fs.unlink(FILE_PATH);
     res.json({
       status: 201,
-      message: "File created successfully",
+      message: "File deleted successfully",
     });
   } catch (error) {
     console.log("---------------error---------------", error);
